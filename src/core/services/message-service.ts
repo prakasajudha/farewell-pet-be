@@ -157,11 +157,15 @@ const getMessageStats = async (userId: string) => {
         }
     });
 
-    console.log(`✅ Found ${totalPrivate} private messages and ${totalPublic} public messages for user ${userId}`);
+    // Hitung total semua pesan (private + public)
+    const totalMessages = totalPrivate + totalPublic;
+
+    console.log(`✅ Found ${totalPrivate} private messages, ${totalPublic} public messages, and ${totalMessages} total messages for user ${userId}`);
 
     return {
-        total_private: totalPrivate,
-        total_public: totalPublic
+        total_private: totalMessages, // Total private sekarang termasuk semua pesan (private + public)
+        total_public: totalPublic,
+        total: totalMessages
     };
 };
 
