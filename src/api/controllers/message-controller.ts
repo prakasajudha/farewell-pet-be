@@ -36,6 +36,23 @@ export const getAllByUser = async (req: AuthRequest, res: Response) => {
     }
 };
 
+export const getFavoritedMessages = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+
+        const messages = await messageService.getFavoritedMessages(req.user.id);
+        return res.status(200).json({
+            success: true,
+            data: messages,
+            message: "Favorited messages retrieved successfully"
+        });
+    } catch (error: any) {
+        return res.status(error.status || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
 export const getMessageStats = async (req: AuthRequest, res: Response) => {
     try {
         if (!req.user) {
@@ -88,6 +105,30 @@ export const createMessage = async (req: AuthRequest, res: Response) => {
             success: true,
             data: newMessage,
             message: "Message created successfully"
+        });
+    } catch (error: any) {
+        return res.status(error.status || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+export const toggleFavorite = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "User not authenticated" });
+        }
+
+        const { message_id } = req.body;
+
+        if (!message_id) {
+            return res.status(400).json({ message: "message_id is required" });
+        }
+
+        const result = await messageService.toggleFavorite(message_id, req.user.id);
+
+        return res.status(200).json({
+            success: true,
+            data: result,
+            message: `Message ${result.is_favorited ? 'favorited' : 'unfavorited'} successfully`
         });
     } catch (error: any) {
         return res.status(error.status || 500).json({ message: error.message || "Internal server error" });

@@ -9,8 +9,10 @@ router.use(authMiddleware);
 
 router.get("/not-private", message.getAllNotPrivate);
 router.get("/my-messages", message.getAllByUser);
+router.get("/favorites", message.getFavoritedMessages);
 router.get("/stats", message.getMessageStats);
 router.get("/global-stats", message.getGlobalMessageStats);
 router.post("/", message.createMessage);
+router.post("/toggle-favorite", message.toggleFavorite);
 
 export default router;

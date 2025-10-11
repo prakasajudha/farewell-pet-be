@@ -20,6 +20,9 @@ export class MessageHistory extends BaseEntity {
     @Column({ default: false })
     is_private: boolean
 
+    @Column({ default: false })
+    is_favorited: boolean
+
     @Column()
     message: string
 

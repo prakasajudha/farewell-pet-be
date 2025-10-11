@@ -12,7 +12,8 @@ const generateToken = (user: User): string => {
         email: user.email,
         name: user.name,
         id: user.id,
-        is_admin: user.is_admin
+        is_admin: user.is_admin,
+        is_semi_admin: user.is_semi_admin
     };
 
     return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
@@ -41,7 +42,7 @@ const login = async (email: string, password: string) => {
 
     const user = await User.findOne({
         where: { email: email },
-        select: ['id', 'name', 'email', 'password', 'is_admin', 'nickname'] // Explicitly select password
+        select: ['id', 'name', 'email', 'password', 'is_admin', 'is_semi_admin', 'nickname'] // Explicitly select password
     });
 
     if (!user) {
@@ -61,6 +62,7 @@ const login = async (email: string, password: string) => {
         email: user.email,
         nickname: user.nickname,
         is_admin: user.is_admin,
+        is_semi_admin: user.is_semi_admin,
         token
     };
 };
@@ -99,6 +101,7 @@ const register = async (name: string, email: string, password: string, nickname:
         email: newUser.email,
         nickname: newUser.nickname,
         is_admin: newUser.is_admin,
+        is_semi_admin: newUser.is_semi_admin,
         token
     };
 };
@@ -118,7 +121,7 @@ const getAllUsers = async () => {
 const getUserById = async (id: string) => {
     const user = await User.findOne({
         where: { id },
-        select: ['id', 'name', 'email', 'nickname', 'is_admin', 'created_at', 'created_by']
+        select: ['id', 'name', 'email', 'nickname', 'is_admin', 'is_semi_admin', 'created_at', 'created_by']
     });
 
     if (!user) {

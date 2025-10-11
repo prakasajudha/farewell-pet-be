@@ -23,6 +23,9 @@ export class User extends BaseEntity {
     @Column({ default: false })
     is_admin: boolean
 
+    @Column({ default: false })
+    is_semi_admin: boolean
+
     @Column()
     nickname: string
 

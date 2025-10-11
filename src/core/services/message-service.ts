@@ -37,6 +37,7 @@ const getAllNotPrivate = async () => {
         id: msg.id,
         message: msg.message,
         is_private: msg.is_private,
+        is_favorited: msg.is_favorited,
         created_at: msg.created_at,
         // Sender: sembunyikan nama, biarkan nickname
         sender: {
@@ -69,6 +70,41 @@ const getAllByUser = async (userId: string) => {
         id: msg.id,
         message: msg.message,
         is_private: msg.is_private,
+        is_favorited: msg.is_favorited,
+        created_at: msg.created_at,
+        // Sender: sembunyikan nama, biarkan nickname
+        sender: {
+            nickname: msg.sender?.nickname || "Anonymous"
+            // Tidak ada: id, name, email
+        },
+        // Recipient: biarkan nama, sembunyikan nickname
+        recipient: {
+            name: msg.recipient?.name || "Unknown"
+            // Tidak ada: id, email, nickname
+        }
+    }));
+
+    return sanitizedMessages;
+};
+
+const getFavoritedMessages = async (userId: string) => {
+    console.log("⭐ Getting all favorited messages...");
+
+    // Get all messages that are favorited (global favorites)
+    const messages = await MessageHistory.find({
+        where: { is_favorited: true },
+        relations: ['sender', 'recipient'],
+        order: { created_at: 'DESC' }
+    });
+
+    console.log(`✅ Found ${messages.length} favorited messages`);
+
+    // Kembalikan data lengkap tapi sembunyikan detail sensitif
+    const sanitizedMessages = messages.map(msg => ({
+        id: msg.id,
+        message: msg.message,
+        is_private: msg.is_private,
+        is_favorited: msg.is_favorited,
         created_at: msg.created_at,
         // Sender: sembunyikan nama, biarkan nickname
         sender: {
@@ -124,6 +160,7 @@ const createMessage = async (userFromId: string, recipientTo: string, isPrivate:
         id: savedMessage.id,
         message: savedMessage.message,
         is_private: savedMessage.is_private,
+        is_favorited: savedMessage.is_favorited,
         created_at: savedMessage.created_at,
         // Sender: sembunyikan nama, biarkan nickname
         sender: {
@@ -205,11 +242,38 @@ const getGlobalMessageStats = async () => {
     };
 };
 
+const toggleFavorite = async (messageId: string, userId: string) => {
+    console.log("⭐ Toggling favorite status for message:", messageId, "by user:", userId);
+
+    // Check if message exists
+    const message = await MessageHistory.findOne({ where: { id: messageId } });
+    if (!message) {
+        console.log("❌ Message not found");
+        throw new Error("Message not found");
+    }
+
+    // User can favorite any message (no authorization check needed)
+    // Toggle the favorite status
+    message.is_favorited = !message.is_favorited;
+    await message.save();
+
+    console.log(`✅ Message ${messageId} favorite status toggled to: ${message.is_favorited}`);
+
+    return {
+        id: message.id,
+        is_favorited: message.is_favorited,
+        message: message.message,
+        created_at: message.created_at
+    };
+};
+
 export default {
     browse,
     getAllNotPrivate,
     getAllByUser,
+    getFavoritedMessages,
     createMessage,
     getMessageStats,
-    getGlobalMessageStats
+    getGlobalMessageStats,
+    toggleFavorite
 };
