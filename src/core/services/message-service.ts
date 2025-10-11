@@ -150,21 +150,28 @@ const getMessageStats = async (userId: string) => {
     });
 
     // Hitung total pesan public yang diterima
-    const totalPublic = await MessageHistory.count({
+    const totalPublicReceived = await MessageHistory.count({
         where: {
             user_to: userId,
             is_private: false
         }
     });
 
-    // Hitung total semua pesan (private + public)
-    const totalMessages = totalPrivate + totalPublic;
+    // Hitung total semua pesan public (global)
+    const totalPublicGlobal = await MessageHistory.count({
+        where: {
+            is_private: false
+        }
+    });
 
-    console.log(`✅ Found ${totalPrivate} private messages, ${totalPublic} public messages, and ${totalMessages} total messages for user ${userId}`);
+    // Hitung total semua pesan (private + public yang diterima)
+    const totalMessages = totalPrivate + totalPublicReceived;
+
+    console.log(`✅ Found ${totalPrivate} private messages, ${totalPublicReceived} public messages received, ${totalPublicGlobal} total public messages globally, and ${totalMessages} total messages for user ${userId}`);
 
     return {
-        total_private: totalMessages, // Total private sekarang termasuk semua pesan (private + public)
-        total_public: totalPublic,
+        total_private: totalPrivate,
+        total_public: totalPublicGlobal, // Total public sekarang adalah semua pesan public global
         total: totalMessages
     };
 };
