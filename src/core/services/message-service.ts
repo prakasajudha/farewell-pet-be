@@ -3,6 +3,7 @@ import { MessageHistory } from "../models/MessageHistory";
 import { User } from "../models/User";
 import { Browse, Pages } from "../../util/types";
 import { parseSortParam } from "../../util/sort";
+import configurationService from "./configuration-service";
 
 const browse = async (condition: object, sort: object, page: Pages): Promise<Browse> => {
     const messages: MessageHistory[] = await MessageHistory.find({
@@ -127,6 +128,22 @@ const createMessage = async (userFromId: string, recipientTo: string, isPrivate:
     console.log("👤 To User ID:", recipientTo);
     console.log("🔒 Is Private:", isPrivate);
     console.log("📝 Message:", message);
+
+    // Check if message sending is enabled
+    try {
+        const sendMessageConfig = await configurationService.getByCode('SEND_MESSAGE');
+        if (!sendMessageConfig.is_active) {
+            console.log("❌ Message sending is disabled");
+            throw new Error("Mengirim Pesan sudah di non aktifkan kamu tidak bisa kirim pesan");
+        }
+        console.log("✅ Message sending is enabled");
+    } catch (error: any) {
+        if (error.message === "Configuration not found") {
+            console.log("❌ SEND_MESSAGE configuration not found");
+            throw new Error("Mengirim Pesan sudah di non aktifkan kamu tidak bisa kirim pesan");
+        }
+        throw error;
+    }
 
     // Check if recipient exists
     const recipient = await User.findOne({ where: { id: recipientTo } });
