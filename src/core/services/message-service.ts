@@ -4,6 +4,7 @@ import { User } from "../models/User";
 import { Browse, Pages } from "../../util/types";
 import { parseSortParam } from "../../util/sort";
 import configurationService from "./configuration-service";
+import emailService from "./email-service";
 
 const browse = async (condition: object, sort: object, page: Pages): Promise<Browse> => {
     const messages: MessageHistory[] = await MessageHistory.find({
@@ -154,6 +155,15 @@ const createMessage = async (userFromId: string, recipientTo: string, isPrivate:
 
     console.log("✅ Recipient found:", recipient.name);
 
+    // Get sender info for email notification
+    const sender = await User.findOne({ where: { id: userFromId } });
+    if (!sender) {
+        console.log("❌ Sender not found");
+        throw new Error("Sender not found");
+    }
+
+    console.log("✅ Sender found:", sender.name);
+
     const newMessage = new MessageHistory();
     newMessage.user_from = userFromId;
     newMessage.user_to = recipientTo;
@@ -165,6 +175,22 @@ const createMessage = async (userFromId: string, recipientTo: string, isPrivate:
     await newMessage.save();
 
     console.log("✅ Message created successfully with ID:", newMessage.id);
+
+    // Send email notification for private messages
+    if (isPrivate) {
+        try {
+            console.log("📧 Sending email notification for private message...");
+            await emailService.sendPrivateMessageNotification(
+                recipient.email,
+                recipient.name,
+                sender.nickname || "Anonymous"
+            );
+            console.log("✅ Email notification sent successfully");
+        } catch (emailError) {
+            console.error("❌ Failed to send email notification:", emailError);
+            // Don't throw error here, just log it - message should still be saved
+        }
+    }
 
     // Return message without sender details
     const savedMessage = await MessageHistory.findOne({

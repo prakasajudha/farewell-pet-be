@@ -4,6 +4,7 @@ import apiPlant from "./plant-router";
 import apiMessage from "./message-router";
 import apiConfiguration from "./configuration-router";
 import apiLeaderboard from "./leaderboard-router";
+import apiEmail from "./email-router";
 import { authMiddleware } from "../../middlewares/auth";
 
 require('express-group-routes');
@@ -32,6 +33,10 @@ const leaderboardRoute = (router: Router) => {
     router.use("/", apiLeaderboard);
 };
 
+const emailRoute = (router: Router) => {
+    router.use("/", apiEmail);
+};
+
 const createRoutes = () => {
     const router = Router() as GroupRouter;
 
@@ -40,6 +45,7 @@ const createRoutes = () => {
     router.group('/message', messageRoute);
     router.group('/configuration', configurationRoute);
     router.group('/leaderboard', leaderboardRoute);
+    router.group('/email', emailRoute);
 
     return router;
 };
