@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import fs from 'fs';
+import path from 'path';
 
 // Konfigurasi SMTP Hostinger
 const transporter = nodemailer.createTransport({
@@ -142,6 +144,39 @@ const createPrivateMessageEmailTemplate = (recipientName: string, senderNickname
             .footer-text:not(:last-child) {
                 margin-bottom: 8px;
             }
+            /* Mobile Responsiveness */
+            @media only screen and (max-width: 600px) {
+                body {
+                    padding: 10px;
+                }
+                .email-container {
+                    margin: 0;
+                    border-radius: 12px;
+                }
+                .header {
+                    padding: 20px 15px;
+                }
+                .logo {
+                    font-size: 20px;
+                }
+                .badge {
+                    font-size: 12px;
+                    padding: 4px 12px;
+                }
+                .content {
+                    padding: 20px 15px;
+                }
+                .greeting {
+                    font-size: 18px;
+                }
+                .message-box {
+                    padding: 15px;
+                }
+                .cta-button {
+                    padding: 12px 20px;
+                    font-size: 14px;
+                }
+            }
         </style>
     </head>
     <body>
@@ -156,8 +191,7 @@ const createPrivateMessageEmailTemplate = (recipientName: string, senderNickname
                 
                 <div class="message-box">
                     <div class="message-text">
-                        Anda memiliki <span class="highlight">1 Pesan Private Baru</span><br>
-                        yang menunggu untuk dibaca!
+                        <span class="highlight">Psst, ada pesan baru nih! 👀</span>
                     </div>
                 </div>
                 
@@ -205,7 +239,7 @@ const sendPrivateMessageNotification = async (recipientEmail: string, recipientN
         const mailOptions = {
             from: process.env.EMAIL_SMPT,
             to: recipientEmail,
-            subject: `Pesan Private Baru dari ${senderNickname} - Bisikberbisik`,
+            subject: `💌 Psst, ada pesan dari ${senderNickname}!`,
             html: createPrivateMessageEmailTemplate(recipientName, senderNickname)
         };
 
@@ -219,6 +253,40 @@ const sendPrivateMessageNotification = async (recipientEmail: string, recipientN
     } catch (error) {
         console.error('❌ Error sending email:', error);
         throw new Error('Failed to send email notification');
+    }
+};
+
+// Fungsi untuk mengirim email pengumuman fitur
+const sendFeatureAnnouncement = async (recipientEmail: string, recipientName: string, appUrl: string = 'https://bisikberbisik.com') => {
+    try {
+        console.log('📧 Sending feature announcement email...');
+        console.log('👤 Recipient:', recipientEmail);
+
+        // Load email template
+        const templatePath = path.join(__dirname, '../../templates/feature-update-email.html');
+        let emailTemplate = fs.readFileSync(templatePath, 'utf8');
+
+        // Replace placeholders
+        emailTemplate = emailTemplate.replace(/\{\{userName\}\}/g, recipientName);
+        emailTemplate = emailTemplate.replace(/\{\{appUrl\}\}/g, appUrl);
+
+        const mailOptions = {
+            from: process.env.EMAIL_SMPT,
+            to: recipientEmail,
+            subject: '🌱 Update Fitur Baru - BisikBerbisik',
+            html: emailTemplate
+        };
+
+        const result = await transporter.sendMail(mailOptions);
+        console.log('✅ Feature announcement email sent successfully:', result.messageId);
+
+        return {
+            success: true,
+            messageId: result.messageId
+        };
+    } catch (error) {
+        console.error('❌ Error sending feature announcement email:', error);
+        throw new Error('Failed to send feature announcement email');
     }
 };
 
@@ -237,5 +305,6 @@ const testEmailConnection = async () => {
 
 export default {
     sendPrivateMessageNotification,
+    sendFeatureAnnouncement,
     testEmailConnection
 };

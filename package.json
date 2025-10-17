@@ -60,6 +60,9 @@
       "migrate": "npx typeorm-ts-node-commonjs migration:run -d ./src/lib/database.ts",
       "migrate:revert": "npx typeorm-ts-node-commonjs migration:revert -d ./src/lib/database.ts",
       "generate": "npx ts-node src/console/generator.ts",
-      "seed": "npx ts-node src/console/seed.ts"
+      "seed": "npx ts-node src/console/seed.ts",
+      "update-message-created-by": "npx ts-node src/scripts/update-message-created-by.ts",
+      "test-feature-announcement": "npx ts-node src/scripts/test-feature-announcement.ts",
+      "blast-feature-announcement": "npx ts-node src/scripts/blast-feature-announcement.ts"
    }
 }

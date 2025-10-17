@@ -6,6 +6,9 @@ import { parseSortParam } from "../../util/sort";
 import configurationService from "./configuration-service";
 import emailService from "./email-service";
 
+// Message version constant
+const CURR_VERSION = 2;
+
 const browse = async (condition: object, sort: object, page: Pages): Promise<Browse> => {
     const messages: MessageHistory[] = await MessageHistory.find({
         where: condition,
@@ -40,11 +43,12 @@ const getAllNotPrivate = async () => {
         message: msg.message,
         is_private: msg.is_private,
         is_favorited: msg.is_favorited,
+        version: msg.version,
+        created_by: msg.created_by,
         created_at: msg.created_at,
-        // Sender: sembunyikan nama, biarkan nickname
+        // Sender: tidak perlu kirim nickname karena sudah ada di created_by
         sender: {
-            nickname: msg.sender?.nickname || "Anonymous"
-            // Tidak ada: id, name, email
+            // Tidak ada: id, name, email, nickname
         },
         // Recipient: biarkan nama, sembunyikan nickname
         recipient: {
@@ -73,11 +77,12 @@ const getAllByUser = async (userId: string) => {
         message: msg.message,
         is_private: msg.is_private,
         is_favorited: msg.is_favorited,
+        version: msg.version,
+        created_by: msg.created_by,
         created_at: msg.created_at,
-        // Sender: sembunyikan nama, biarkan nickname
+        // Sender: tidak perlu kirim nickname karena sudah ada di created_by
         sender: {
-            nickname: msg.sender?.nickname || "Anonymous"
-            // Tidak ada: id, name, email
+            // Tidak ada: id, name, email, nickname
         },
         // Recipient: biarkan nama, sembunyikan nickname
         recipient: {
@@ -107,11 +112,12 @@ const getFavoritedMessages = async (userId: string) => {
         message: msg.message,
         is_private: msg.is_private,
         is_favorited: msg.is_favorited,
+        version: msg.version,
+        created_by: msg.created_by,
         created_at: msg.created_at,
-        // Sender: sembunyikan nama, biarkan nickname
+        // Sender: tidak perlu kirim nickname karena sudah ada di created_by
         sender: {
-            nickname: msg.sender?.nickname || "Anonymous"
-            // Tidak ada: id, name, email
+            // Tidak ada: id, name, email, nickname
         },
         // Recipient: biarkan nama, sembunyikan nickname
         recipient: {
@@ -169,8 +175,9 @@ const createMessage = async (userFromId: string, recipientTo: string, isPrivate:
     newMessage.user_to = recipientTo;
     newMessage.is_private = isPrivate;
     newMessage.message = message;
-    newMessage.created_by = userFromId;
+    newMessage.created_by = sender.nickname || "Anonymous";
     newMessage.created_at = new Date();
+    newMessage.version = CURR_VERSION;
 
     await newMessage.save();
 
@@ -204,11 +211,12 @@ const createMessage = async (userFromId: string, recipientTo: string, isPrivate:
         message: savedMessage.message,
         is_private: savedMessage.is_private,
         is_favorited: savedMessage.is_favorited,
+        version: savedMessage.version,
+        created_by: savedMessage.created_by,
         created_at: savedMessage.created_at,
-        // Sender: sembunyikan nama, biarkan nickname
+        // Sender: tidak perlu kirim nickname karena sudah ada di created_by
         sender: {
-            nickname: savedMessage.sender?.nickname || "Anonymous"
-            // Tidak ada: id, name, email
+            // Tidak ada: id, name, email, nickname
         },
         // Recipient: biarkan nama, sembunyikan nickname
         recipient: {
@@ -306,6 +314,8 @@ const toggleFavorite = async (messageId: string, userId: string) => {
         id: message.id,
         is_favorited: message.is_favorited,
         message: message.message,
+        version: message.version,
+        created_by: message.created_by,
         created_at: message.created_at
     };
 };

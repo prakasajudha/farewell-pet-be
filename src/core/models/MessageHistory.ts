@@ -32,6 +32,9 @@ export class MessageHistory extends BaseEntity {
     @Column()
     created_at: Date
 
+    @Column({ default: 1 })
+    version: number
+
     @Column({ select: false })
     deleted_by: string
 

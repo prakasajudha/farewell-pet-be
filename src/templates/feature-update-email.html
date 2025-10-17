@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Fitur Baru - BisikBerbisik</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            margin: -25px -25px 25px -25px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .title {
+            font-size: 22px;
+            color: white;
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+
+        .feature-box {
+            background: #f7fafc;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: #f7fafc;
+            padding: 18px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .emoji {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        /* Preheader text - hidden but visible in email preview */
+        .preheader {
+            display: none !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            visibility: hidden !important;
+            mso-hide: all !important;
+            font-size: 1px !important;
+            color: transparent !important;
+            line-height: 1px !important;
+            max-width: 0 !important;
+            opacity: 0 !important;
+        }
+
+        /* Mobile Responsiveness */
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+                margin: 0;
+            }
+
+            .header {
+                margin: -20px -20px 20px -20px;
+                padding: 15px;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .feature-box {
+                padding: 15px;
+                margin: 15px 0;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 14px;
+            }
+
+            /* Hide greeting and intro text on mobile */
+            .greeting-section {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="greeting-section">
+            <p>Halo <strong>{{userName}}</strong>,</p>
+
+            <p>Kami senang mengumumkan dua fitur baru yang telah kami tambahkan ke platform BisikBerbisik untuk
+                meningkatkan
+                pengalaman Anda!</p>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">
+                <span class="emoji">👤</span>1. Nickname Baru!
+            </div>
+            <div class="feature-description">
+                <strong>Tempat baru, nickname baru!</strong> Berikan pesan-pesan ke teman-teman mu agar lebih semangat
+                OJT di tempat baru mereka!
+                (atau bisa ungkapin saja perasaan mu) 💪
+            </div>
+            <div class="highlight">
+                <strong>🎯 Yang bisa kamu lakukan:</strong><br>
+                • Kirim pesan motivasi untuk teman yang OJT Dari Sumbagut hingga Papua<br>
+                • Ungkapkan perasaan dan dukungan<br>
+                • Berbagi pengalaman di tempat baru<br>
+                • Membuat percakapan lebih personal dengan nickname
+            </div>
+        </div>
+
+        <div class="feature-box">
+            <div class="feature-title">
+                <span class="emoji">📧</span>2. Notifikasi Email untuk Pesan Rahasia
+            </div>
+            <div class="feature-description">
+                <strong>Psst, ada fitur baru nih!</strong> Penerima pesan rahasia Anda sekarang akan mendapat notifikasi
+                email langsung,
+                sehingga mereka tidak akan melewatkan pesan penting dari Anda! 💌
+            </div>
+            <div class="highlight">
+                <strong>🔔 Yang berubah:</strong><br>
+                • Email otomatis dikirim ke penerima pesan rahasia<br>
+                • Penerima tahu ada pesan baru dari Anda<br>
+                • Tidak ada lagi pesan yang terlewat!
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{appUrl}}" class="cta-button">Coba Fitur Baru Sekarang!</a>
+        </div>
+
+        <div class="highlight">
+            <strong>💡 Tips:</strong><br>
+            • Pastikan nickname Anda sudah diatur dengan baik<br>
+            • Cek email Anda untuk notifikasi pesan rahasia<br>
+            • Nikmati pengalaman chatting yang lebih baik!
+        </div>
+
+        <p>Terima kasih telah menggunakan BisikBerbisik! Jika Anda memiliki pertanyaan atau saran, jangan ragu untuk
+            menghubungi kami.</p>
+
+        <div class="footer">
+            <p><strong>Tim BisikBerbisik</strong></p>
+            <p>🌱 Menghubungkan hati melalui pesan bermakna</p>
+            <p style="font-size: 12px; color: #999;">
+                Email ini dikirim secara otomatis. Mohon jangan membalas email ini.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
