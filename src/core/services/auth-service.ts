@@ -102,7 +102,8 @@ const register = async (name: string, email: string, password: string, nickname:
         nickname: newUser.nickname,
         is_admin: newUser.is_admin,
         is_semi_admin: newUser.is_semi_admin,
-        token
+        token,
+        password // Return password asli untuk dikirim via email
     };
 };
 

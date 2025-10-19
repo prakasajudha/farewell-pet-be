@@ -290,6 +290,43 @@ const sendFeatureAnnouncement = async (recipientEmail: string, recipientName: st
     }
 };
 
+// Fungsi untuk mengirim email konfirmasi registrasi
+const sendRegistrationConfirmation = async (userEmail: string, userName: string, userNickname: string, userPassword: string, appUrl: string = 'https://bisikberbisik.com') => {
+    try {
+        console.log('📧 Sending registration confirmation email...');
+        console.log('👤 User Email:', userEmail);
+        console.log('👤 User Name:', userName);
+
+        // Load email template
+        const templatePath = path.join(__dirname, '../../templates/registration-confirmation-email.html');
+        let emailTemplate = fs.readFileSync(templatePath, 'utf8');
+
+        // Replace placeholders
+        emailTemplate = emailTemplate.replace(/\{\{userEmail\}\}/g, userEmail);
+        emailTemplate = emailTemplate.replace(/\{\{userPassword\}\}/g, userPassword);
+        emailTemplate = emailTemplate.replace(/\{\{userNickname\}\}/g, userNickname);
+        emailTemplate = emailTemplate.replace(/\{\{appUrl\}\}/g, appUrl);
+
+        const mailOptions = {
+            from: process.env.EMAIL_SMPT,
+            to: userEmail,
+            subject: '🎉 Selamat Datang di BisikBerbisik!',
+            html: emailTemplate
+        };
+
+        const result = await transporter.sendMail(mailOptions);
+        console.log('✅ Registration confirmation email sent successfully:', result.messageId);
+
+        return {
+            success: true,
+            messageId: result.messageId
+        };
+    } catch (error) {
+        console.error('❌ Error sending registration confirmation email:', error);
+        throw new Error('Failed to send registration confirmation email');
+    }
+};
+
 // Fungsi untuk test koneksi email
 const testEmailConnection = async () => {
     try {
@@ -306,5 +343,6 @@ const testEmailConnection = async () => {
 export default {
     sendPrivateMessageNotification,
     sendFeatureAnnouncement,
+    sendRegistrationConfirmation,
     testEmailConnection
 };

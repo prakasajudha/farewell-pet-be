@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import authService from "../../core/services/auth-service";
+import emailService from "../../core/services/email-service";
 import { AuthRequest } from "../middlewares/auth";
 
 export const auth = async (req: Request, res: Response) => {
@@ -20,9 +21,28 @@ export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, password, nickname } = req.body;
         const user = await authService.register(name, email, password, nickname);
+
+        // Kirim email konfirmasi registrasi
+        try {
+            await emailService.sendRegistrationConfirmation(
+                user.email,
+                user.name,
+                user.nickname,
+                user.password, // Password asli dari service
+                process.env.APP_URL || 'https://bisikberbisik.com'
+            );
+            console.log('✅ Registration confirmation email sent to:', user.email);
+        } catch (emailError) {
+            console.error('❌ Failed to send registration confirmation email:', emailError);
+            // Jangan throw error karena registrasi sudah berhasil, hanya email yang gagal
+        }
+
+        // Remove password from response for security
+        const { password: _, ...userWithoutPassword } = user;
+
         return res.status(200).json({
             success: true,
-            data: user,
+            data: userWithoutPassword,
             message: "User registered successfully"
         });
     } catch (error: any) {

@@ -64,3 +64,37 @@ export const testSendEmail = async (req: AuthRequest, res: Response) => {
         });
     }
 };
+
+// Test send registration confirmation email (for testing purposes)
+export const testSendRegistrationEmail = async (req: Request, res: Response) => {
+    try {
+        const { user_email, user_name, user_nickname, user_password } = req.body;
+
+        if (!user_email || !user_name || !user_nickname || !user_password) {
+            return res.status(400).json({
+                success: false,
+                message: "user_email, user_name, user_nickname, and user_password are required"
+            });
+        }
+
+        console.log("📧 Testing registration confirmation email...");
+        const result = await emailService.sendRegistrationConfirmation(
+            user_email,
+            user_name,
+            user_nickname,
+            user_password
+        );
+
+        return res.status(200).json({
+            success: true,
+            data: result,
+            message: "Test registration email sent successfully"
+        });
+    } catch (error: any) {
+        console.error("❌ Test registration email error:", error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || "Failed to send test registration email"
+        });
+    }
+};

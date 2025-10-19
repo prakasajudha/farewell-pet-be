@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Datang - BisikBerbisik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .email-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .main-message {
+            text-align: center;
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .account-card {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .account-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-icon {
+            font-size: 20px;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+            min-width: 70px;
+        }
+
+        .info-value {
+            color: #2d3748;
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .warning-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .warning-text {
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            background: #f8fafc;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-text:last-child {
+            margin-bottom: 0;
+            font-size: 12px;
+        }
+
+        .preheader {
+            display: none !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            visibility: hidden !important;
+            mso-hide: all !important;
+            font-size: 1px !important;
+            color: transparent !important;
+            line-height: 1px !important;
+            max-width: 0 !important;
+            opacity: 0 !important;
+        }
+
+        /* Mobile Responsiveness */
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .email-container {
+                margin: 0;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 28px;
+            }
+
+            .welcome-text {
+                font-size: 20px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .account-card {
+                padding: 20px;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .info-label {
+                min-width: auto;
+                margin-bottom: 5px;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="preheader">Selamat datang di BisikBerbisik! Akun Anda telah berhasil dibuat.</div>
+
+    <div class="email-container">
+        <div class="header">
+            <div class="logo">🌱 BisikBerbisik</div>
+            <div class="welcome-text">Selamat Datang!</div>
+            <div class="subtitle">Akun Anda berhasil dibuat</div>
+        </div>
+
+        <div class="content">
+            <div class="success-icon">🎉</div>
+
+            <div class="main-message">
+                Terima kasih telah bergabung dengan komunitas BisikBerbisik!<br>
+                Sekarang kamu bisa mulai mengirim pesan rahasia ke teman-teman.
+            </div>
+
+            <div class="account-card">
+                <div class="account-title">📋 Informasi Akun Anda</div>
+
+                <div class="info-item">
+                    <div class="info-icon">📧</div>
+                    <div class="info-label">Email:</div>
+                    <div class="info-value">{{userEmail}}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">🔑</div>
+                    <div class="info-label">Password:</div>
+                    <div class="info-value">{{userPassword}}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">👤</div>
+                    <div class="info-label">Nickname:</div>
+                    <div class="info-value">{{userNickname}}</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-icon">🔒</div>
+                <div class="warning-text">
+                    Penting! Ganti password langsung dari aplikasi untuk keamanan akun Anda.
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <a href="{{appUrl}}" class="cta-button" style="color: white;">Mulai Menggunakan Aplikasi</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text"><strong>Tim BisikBerbisik</strong></div>
+            <div class="footer-text">🌱 Menghubungkan hati melalui pesan bermakna</div>
+            <div class="footer-text">Email ini dikirim secara otomatis. Mohon jangan membalas email ini.</div>
+        </div>
+    </div>
+</body>
+
+</html>
